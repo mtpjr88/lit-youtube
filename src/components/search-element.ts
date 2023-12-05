@@ -22,7 +22,7 @@ export class SearchElement extends LitElement {
   `;
 
 
-    private handleChange = (e: any) => {
+    handleChange = (e: any) => {
         this.value = e.target.value;
     };
 

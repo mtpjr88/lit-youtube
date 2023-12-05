@@ -5,6 +5,7 @@ import { getSearch, getVideosByIds } from '../api/youtube';
 import './card-element';
 import './shared/error-element';
 
+
 @customElement('main-element')
 export class MyElement extends LitElement {
   constructor() {
@@ -12,7 +13,7 @@ export class MyElement extends LitElement {
     this.productTask.run();
   }
 
-  productTask = new Task(this, {
+  productTask = new Task<any, any>(this, {
     // @ts-ignore
     task: async ({ query, order }) => {
       const response = await getSearch(query, order);
@@ -29,11 +30,11 @@ export class MyElement extends LitElement {
 
   handleSubmit = (value: string) => {
     this.value = value;
-    this.productTask.run({ query: value } as any);
+    this.productTask.run({ query: value });
   };
-  handleTabChange = (order: any) => {
+  handleTabChange = (order: string) => {
     this.order = order;
-    this.productTask.run({ query: this.value, order } as any);
+    this.productTask.run({ query: this.value, order });
   };
 
   override render() {
