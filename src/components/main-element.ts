@@ -1,10 +1,11 @@
-import {LitElement, html, css} from 'lit';
-import {customElement} from 'lit/decorators.js';
-import {Task} from '@lit/task';
-import {getSearch, getVideosByIds} from '../api/youtube';
+import { LitElement, html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { Task } from '@lit/task';
+// import { getSearch, getVideosByIds } from '../api/youtube';
 import './search-element';
-import {youTubeUrl} from '../config';
-
+import './switch-element';
+import { youTubeUrl } from '../config';
+import { mockData } from '../api/mock';
 @customElement('main-element')
 export class MyElement extends LitElement {
   static override styles = css`
@@ -42,19 +43,28 @@ export class MyElement extends LitElement {
   `;
 
   private _productTask = new Task(this, {
-    task: async (query: any) => {
-      const response = await getSearch(query);
-      const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
-      const videoData = await getVideosByIds(ids);
-
-      return videoData;
+    // @ts-ignore
+    task: async ({ query, order }) => {
+      debugger;
+      // const response = await getSearch(query, order);
+      // const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
+      // const videoData = await getVideosByIds(ids);
+      // return videoData;
+      return mockData;
     },
     args: () => [],
   });
 
   private _value: string = '';
+  private _order: string = '';
   private handleSubmit = (value: string) => {
-    this._productTask.run(value as any);
+
+    this._productTask.run({ query: value } as any);
+  };
+  private handleTabChange = (order: any) => {
+    this._order = order;
+    this._productTask.run({ query: this._value, order } as any);
+
   };
 
   override render() {
@@ -65,20 +75,23 @@ export class MyElement extends LitElement {
         const items = data.items;
         console.log('data', data);
         return html`<div class="container">
-          <search-element
-            .value="${this._value}"
-            .onSubmit="${this.handleSubmit}"
-          ></search-element>
+          <div>
+            <search-element
+              .value="${this._value}"
+              .onSubmit="${this.handleSubmit}"
+            ></search-element>
+            <switch-element .selected="${this._order}" .onChange="${this.handleTabChange}"></switch-element>
+          </div>
           <div class="body">
             ${items.map(
-              (x: any) => html`<kor-card
+          (x: any) => html`<kor-card
                 icon="video_library"
                 style="height:300px; width: 300px; overflow: visible; "
                 label=${x.snippet.channelTitle}
               >
                 <kor-image
                   src=${x.snippet.thumbnails.default.url}
-                  width="200px"
+                  width="250px"
                   height="100px"
                   fit="cover"
                 ></kor-image>
@@ -86,15 +99,15 @@ export class MyElement extends LitElement {
                   <a href="${youTubeUrl + x.id}">${x.snippet.title}</a>
                   <div class="commentContainer">
                     ${x.statistics.commentCount > 0
-                      ? html` <kor-badge
+              ? html` <kor-badge
                             label="${x.statistics.commentCount}"
                           ></kor-badge
                           >comments`
-                      : undefined}
+              : undefined}
                   </div>
                 </div>
               </kor-card>`
-            )}
+        )}
           </div>
         </div>`;
       },
