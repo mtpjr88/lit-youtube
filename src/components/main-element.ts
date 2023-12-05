@@ -1,11 +1,11 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Task } from '@lit/task';
-// import { getSearch, getVideosByIds } from '../api/youtube';
+import { Task, } from '@lit/task';
+import { getSearch, getVideosByIds } from '../api/youtube';
 import './search-element';
 import './switch-element';
 import { youTubeUrl } from '../config';
-import { mockData } from '../api/mock';
+//import { mockData } from '../api/mock';
 @customElement('main-element')
 export class MyElement extends LitElement {
   static override styles = css`
@@ -41,25 +41,32 @@ export class MyElement extends LitElement {
       align-items: center;
     }
   `;
+  constructor() {
+    super();
+    this._productTask.run();
+  }
 
   private _productTask = new Task(this, {
     // @ts-ignore
     task: async ({ query, order }) => {
-      debugger;
-      // const response = await getSearch(query, order);
-      // const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
-      // const videoData = await getVideosByIds(ids);
-      // return videoData;
-      return mockData;
+
+
+      const response = await getSearch(query, order);
+      const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
+      const videoData = await getVideosByIds(ids);
+      return videoData;
+      // return mockData;
     },
     args: () => [],
+    autoRun: false
   });
 
   private _value: string = '';
   private _order: string = '';
   private handleSubmit = (value: string) => {
-
+    this._value = value;
     this._productTask.run({ query: value } as any);
+
   };
   private handleTabChange = (order: any) => {
     this._order = order;
@@ -73,7 +80,6 @@ export class MyElement extends LitElement {
       pending: () => html`<div>...loading</div>`,
       complete: (data) => {
         const items = data.items;
-        console.log('data', data);
         return html`<div class="container">
           <div>
             <search-element

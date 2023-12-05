@@ -4,13 +4,12 @@ const YOUTUBE_API_KEY = 'AIzaSyCsfrLf83QjNaNGwMsbZaNnNPwe9sCBNPk';
 const baseUrl = `https://www.googleapis.com/youtube/v3`;
 
 export const getSearch = async (q: string = '', order?: any) => {
-    debugger;
     const params = buildSearchParams({
         key: YOUTUBE_API_KEY,
         type: 'video',
         part: 'snippet',
         maxResults: '25',
-        ...order && { order },
+        ...(order && { order }),
         q,
     });
 

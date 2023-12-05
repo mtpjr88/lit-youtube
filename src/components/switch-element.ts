@@ -16,19 +16,21 @@ export class SwitchElement extends LitElement {
       padding: 12px 62px;
     }
   `;
-  setChecked() {
-    // this.selected = (event.target as HTMLInputElement).value;
-  }
+
+  isActive = (value: string) => {
+    return this.selected === value;
+
+  };
   override render() {
-    debugger;
+
     return html`
       <div>
         <kor-text size="header-1">Filter:</kor-text>
         <kor-switch  style="width: fit-content;">
-          <kor-switch-item @click="${() => this.onChange('')}" label="no filter" active=${this.selected === ''}></kor-switch-item>
-          <kor-switch-item @click="${() => this.onChange('date')}" label="date" active=${this.selected === 'date'}></kor-switch-item>
-          <kor-switch-item @click="${() => this.onChange('rating')}" label="rating" active=${this.selected === 'rating'}></kor-switch-item>
-          <kor-switch-item @click="${() => this.onChange('relevance')}" label="relevance" active=${this.selected === "relevance"}></kor-switch-item>
+          <kor-switch-item @click="${() => this.onChange('')}" label="no filter" .active=${this.isActive('')}></kor-switch-item>
+          <kor-switch-item @click="${() => this.onChange('date')}" label="date" .active=${this.isActive('date')}></kor-switch-item>
+          <kor-switch-item @click="${() => this.onChange('rating')}" label="rating" .active=${this.isActive('rating')}></kor-switch-item>
+          <kor-switch-item @click="${() => this.onChange('relevance')}" label="relevance" .active=${this.isActive('relevance')}></kor-switch-item>
         </kor-switch>
       </div>
     `;
