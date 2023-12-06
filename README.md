@@ -16,19 +16,18 @@ Install dependencies: \*note also have typescript installed on your machine.
 npm i
 ```
 
+# add youtube api key (included in email) \* before build
+
 ## Build
 
 This sample uses the TypeScript compiler to produce JavaScript that runs in modern browsers.
 
 To build the JavaScript version of your component:
+in `src/env-config.json`
 
 ```bash
 npm run build
 ```
-
-# add youtube api key (included in email)
-
-in `src/env-config.json`
 
 To start
 
