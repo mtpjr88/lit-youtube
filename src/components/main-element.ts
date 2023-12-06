@@ -1,10 +1,10 @@
-import {LitElement, css, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
-import {Task} from '@lit/task';
-//import { getSearch, getVideosByIds } from '../api/youtube';
+import { LitElement, css, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { Task } from '@lit/task';
+import { getSearch, getVideosByIds } from '../api/youtube';
 import './card-element';
 import './shared/error-element';
-import {mockData} from '../api/mock';
+//import { mockData } from '../api/mock';
 
 @customElement('main-element')
 export class MyElement extends LitElement {
@@ -44,11 +44,11 @@ export class MyElement extends LitElement {
 
   youtubeTask = new Task<any, any>(this, {
     // @ts-ignore
-    task: async ({query, order}) => {
-      // const response = await getSearch(query, order);
-      // const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
-      // const videoData = await getVideosByIds(ids);
-      return [];
+    task: async ({ query, order }) => {
+      const response = await getSearch(query, order);
+      const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
+      const videoData = await getVideosByIds(ids);
+      return videoData;
     },
     args: () => [],
     autoRun: false,
@@ -59,18 +59,18 @@ export class MyElement extends LitElement {
 
   handleSubmit = (value: string) => {
     this.value = value;
-    this.youtubeTask.run({query: value});
+    this.youtubeTask.run({ query: value });
   };
   handleTabChange = (order: string) => {
     this.order = order;
-    this.youtubeTask.run({query: this.value, order});
+    this.youtubeTask.run({ query: this.value, order });
   };
 
   override render() {
     return this.youtubeTask.render({
-      initial: () => html`<p>Waiting to start task</p>`,
+      initial: () => html`<kor-spinner></kor-spinner>`,
       pending: () => html`<kor-spinner></kor-spinner>`,
-      complete: () => {
+      complete: (data) => {
         return html`
           <div>
             <div class="search">
@@ -86,7 +86,7 @@ export class MyElement extends LitElement {
             </div>
             <div>
               <card-element
-                .data="${mockData.items}"
+                .data="${data.items}"
                 .onSubmit="${this.handleSubmit}"
                 .handleTabChange=${this.handleTabChange}
                 .order=${this.order}
