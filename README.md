@@ -26,6 +26,10 @@ To build the JavaScript version of your component:
 npm run build
 ```
 
+# add youtube api key (included in email)
+
+in `src/env-config.json`
+
 To start
 
 ```bash
