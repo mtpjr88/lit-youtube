@@ -49,3 +49,5 @@ I followed a simple top down data approach.
 `<main-element>` being the parent that is responsible for the data hydration.
 and three ui layers `<search-element>`, `<tab-element>`, and `<card-element>`
 essentially what I imagined how the ui would breakdown as components.
+
+- I decided last minute to add some basic paging after discovering the you tube api returns a nextPageId.
