@@ -2,13 +2,14 @@ import config from '../config';
 import { buildSearchParams } from '../utils/api-util';
 const baseUrl = `https://www.googleapis.com/youtube/v3`;
 
-export const getSearch = async (q: string = '', order?: any) => {
+export const getSearch = async (q: string = '', { order, pageToken }: { order: string, pageToken?: string; }) => {
     const params = buildSearchParams({
         key: config.youTubeApiKey,
         type: 'video',
         part: 'snippet',
         maxResults: '25',
         ...(order && { order }),
+        ...(pageToken && { pageToken }),
         q,
     });
 
@@ -23,8 +24,9 @@ const buildIds = (ids: string[]) => {
     return ids?.join(',') ?? '';
 };
 
-export const getVideosByIds = async (ids: any = ['']) => {
+export const getVideosByIds = async (ids: any = [''], pageToken: any) => {
     const include = ['snippet', 'contentDetails', 'statistics'];
+    ;
     const params = buildSearchParams({
         key: config.youTubeApiKey,
         part: buildPart(include),
@@ -33,5 +35,6 @@ export const getVideosByIds = async (ids: any = ['']) => {
     });
 
     const response = await fetch(`${baseUrl}/videos?${params}`);
-    return await response.json();
+    const data = await response.json();
+    return { ...data, ...pageToken };
 };

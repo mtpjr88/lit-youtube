@@ -23,15 +23,20 @@ export class CardElement extends LitElement {
     handleTabChange: (value: string) => void = noop;
 
     static override styles = css`
-    
+    .card {
+      height: 250px;
+      width: 300px;
+      overflow: unset;
+      padding: 10px;
+    }
     .body {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 5px;
-      overflow:scroll ;
+      overflow: scroll;
     }
-   
+
     .cardBody {
       display: flex;
       flex: 1;
@@ -50,8 +55,10 @@ export class CardElement extends LitElement {
         ${this.data.map(
             (x: any) => html`<kor-card
             icon="video_library"
-            style="height:250px; width: 300px; overflow: unset;padding:10px "
-            .label=${html`<a href="${config.youTubeUrl + x.id}">${x.snippet.channelTitle}</a>`}
+            class="card"
+            .label=${html`<a href="${config.youTubeUrl + x.id}"
+              >${x.snippet.title}</a
+            >`}
           >
             <kor-image
               src=${x.snippet.thumbnails.default.url}

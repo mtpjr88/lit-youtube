@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import './card-element';
 import './tab-element';
+import './page-selector-element';
 import './shared/error-element';
 import { findVideos } from '../tasks/youtube-task';
 //import { mockData } from '../api/mock';
@@ -31,7 +32,7 @@ export class MyElement extends LitElement {
       display: flex;
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
-      flex-wrap:wrap ;
+      flex-wrap: wrap;
     }
     .container {
       display: flex;
@@ -62,11 +63,20 @@ export class MyElement extends LitElement {
     this.youtubeTask.run({ query: this.value, order });
   };
 
+  handlePrevClick = () => { };
+  handleNextClick = (nextPageToken: string) => {
+    this.youtubeTask.run({ query: this.value, pageToken: nextPageToken });
+  };
   override render() {
     return this.youtubeTask.render({
       initial: () => html`<kor-spinner></kor-spinner>`,
       pending: () => html`<kor-spinner></kor-spinner>`,
-      complete: (data: { items: any[]; }) => {
+      complete: (data: {
+        items: any[];
+        nextPageToken: string;
+        prevPageToken: string;
+      }) => {
+        ;
         return html`
           <div>
             <div class="search">
@@ -89,10 +99,16 @@ export class MyElement extends LitElement {
                 .value=${this.value}
               ></card-element>
             </div>
+            <page-selector-element 
+            .hasPreviousPage="${!!data.prevPageToken}" 
+            .onNextClick="${() => this.handleNextClick(data.nextPageToken)}" 
+            .onPrevClick="${() => this.handleNextClick(data.prevPageToken)}">
+            <page-selector-element>
           </div>
         `;
       },
-      error: (error: any) => html`<error-element .error=${error}></error-element>`,
+      error: (error: any) =>
+        html`<error-element .error=${error}></error-element>`,
     });
   }
 }
