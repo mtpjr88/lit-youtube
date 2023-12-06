@@ -1,12 +1,12 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 
 @customElement('error-element')
 export class ErrorElement extends LitElement {
-    @property({ type: String })
-    error: any = '';
+  @property({type: String})
+  error: string = '';
 
-    static override styles = css`
+  static override styles = css`
     * {
       transition: all 0.6s;
     }
@@ -50,8 +50,8 @@ export class ErrorElement extends LitElement {
     }
   `;
 
-    override render() {
-        return html`
+  override render() {
+    return html`
       <div id="main">
         <div class="fof">
           <h1>${this.error}</h1>
@@ -62,5 +62,5 @@ export class ErrorElement extends LitElement {
         </div>
       </div>
     `;
-    }
+  }
 }

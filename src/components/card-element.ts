@@ -1,8 +1,8 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { youTubeUrl } from '../config';
+import config from '../config';
 import './search-element';
-import './switch-element';
+import './tab-element';
 const noop = () => { };
 
 @customElement('card-element')
@@ -46,16 +46,14 @@ export class CardElement extends LitElement {
 
     override render() {
         return html`
-     
       <div class="body">
         ${this.data.map(
             (x: any) => html`<kor-card
             icon="video_library"
             style="height:250px; width: 300px; overflow: unset;padding:10px "
-            .label=${html`<a href="${youTubeUrl + x.id}">${x.snippet.channelTitle}</a>`}
+            .label=${html`<a href="${config.youTubeUrl + x.id}">${x.snippet.channelTitle}</a>`}
           >
             <kor-image
-            
               src=${x.snippet.thumbnails.default.url}
               width="250px"
               height="100px"

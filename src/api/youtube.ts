@@ -1,11 +1,10 @@
+import config from '../config';
 import { buildSearchParams } from '../utils/api-util';
-
-const YOUTUBE_API_KEY = 'AIzaSyCsfrLf83QjNaNGwMsbZaNnNPwe9sCBNPk';
 const baseUrl = `https://www.googleapis.com/youtube/v3`;
 
 export const getSearch = async (q: string = '', order?: any) => {
     const params = buildSearchParams({
-        key: YOUTUBE_API_KEY,
+        key: config.youTubeApiKey,
         type: 'video',
         part: 'snippet',
         maxResults: '25',
@@ -13,8 +12,7 @@ export const getSearch = async (q: string = '', order?: any) => {
         q,
     });
 
-    const url = `${baseUrl}/search?${params}`;
-    const response = await fetch(url);
+    const response = await fetch(`${baseUrl}/search?${params}`);
     return await response.json();
 };
 
@@ -27,15 +25,13 @@ const buildIds = (ids: string[]) => {
 
 export const getVideosByIds = async (ids: any = ['']) => {
     const include = ['snippet', 'contentDetails', 'statistics'];
-
     const params = buildSearchParams({
-        key: YOUTUBE_API_KEY,
+        key: config.youTubeApiKey,
         part: buildPart(include),
         maxResults: '25',
         id: buildIds(ids),
     });
 
-    const url = `${baseUrl}/videos?${params}`;
-    const response = await fetch(url);
+    const response = await fetch(`${baseUrl}/videos?${params}`);
     return await response.json();
 };

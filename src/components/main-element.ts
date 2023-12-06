@@ -1,9 +1,10 @@
 import { LitElement, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { Task } from '@lit/task';
-import { getSearch, getVideosByIds } from '../api/youtube';
 import './card-element';
+import './tab-element';
 import './shared/error-element';
+import { findVideos } from '../tasks/youtube-task';
 //import { mockData } from '../api/mock';
 
 @customElement('main-element')
@@ -43,13 +44,7 @@ export class MyElement extends LitElement {
   `;
 
   youtubeTask = new Task<any, any>(this, {
-    // @ts-ignore
-    task: async ({ query, order }) => {
-      const response = await getSearch(query, order);
-      const ids = response.items?.map((x: any) => x.id.videoId) ?? '';
-      const videoData = await getVideosByIds(ids);
-      return videoData;
-    },
+    task: findVideos,
     args: () => [],
     autoRun: false,
   });
@@ -70,7 +65,7 @@ export class MyElement extends LitElement {
     return this.youtubeTask.render({
       initial: () => html`<kor-spinner></kor-spinner>`,
       pending: () => html`<kor-spinner></kor-spinner>`,
-      complete: (data) => {
+      complete: (data: { items: any[]; }) => {
         return html`
           <div>
             <div class="search">
@@ -78,11 +73,11 @@ export class MyElement extends LitElement {
                 .value="${this.value}"
                 .onSubmit="${this.handleSubmit}"
               ></search-element>
-              <switch-element
+              <tab-element
                 .selected="${this.order}"
                 .onChange="${this.handleTabChange}"
               >
-              </switch-element>
+              </tab-element>
             </div>
             <div>
               <card-element
@@ -96,7 +91,7 @@ export class MyElement extends LitElement {
           </div>
         `;
       },
-      error: (error) => html`<error-element .error=${error}></error-element>`,
+      error: (error: any) => html`<error-element .error=${error}></error-element>`,
     });
   }
 }
