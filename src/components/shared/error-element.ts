@@ -1,9 +1,9 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 
 @customElement('error-element')
 export class ErrorElement extends LitElement {
-  @property({ type: String })
+  @property({type: String})
   error: string = '';
 
   static override styles = css`
@@ -31,11 +31,10 @@ export class ErrorElement extends LitElement {
     .fof {
       display: table-cell;
       vertical-align: middle;
-      color:white
+      color: white;
     }
 
     .fof h1 {
-      
       display: inline-block;
       padding-right: 12px;
       animation: type 0.5s alternate infinite;
@@ -57,7 +56,8 @@ export class ErrorElement extends LitElement {
         <div class="fof">
           <h1>${this.error}</h1>
           <h2>
-             (try a new api key and try again)
+            (I should have included the api key in the email. copy and paste
+            inside the env-config.json)
           </h2>
         </div>
       </div>
