@@ -23,27 +23,15 @@ export class CardElement extends LitElement {
     handleTabChange: (value: string) => void = noop;
 
     static override styles = css`
-    :host {
-      display: flex;
-      flex: 1;
-      justify-content: center;
-      padding: 12px 62px;
-    }
+    
     .body {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 5px;
+      overflow:scroll ;
     }
-    .container {
-      display: flex;
-      height: 800px;
-      flex: 1;
-      gap: 15px;
-      justify-content: center;
-      flex-flow: wrap;
-      overflow: auto;
-    }
+   
     .cardBody {
       display: flex;
       flex: 1;
@@ -57,33 +45,24 @@ export class CardElement extends LitElement {
   `;
 
     override render() {
-        return html`<div class="container">
-      <div>
-        <search-element
-          .value="${this.value}"
-          .onSubmit="${this.onSubmit}"
-        ></search-element>
-        <switch-element
-          .selected="${this.order}"
-          .onChange="${this.handleTabChange}"
-        >
-        </switch-element>
-      </div>
+        return html`
+     
       <div class="body">
         ${this.data.map(
             (x: any) => html`<kor-card
             icon="video_library"
-            style="height:300px; width: 300px; overflow: visible; "
-            label=${x.snippet.channelTitle}
+            style="height:250px; width: 300px; overflow: unset;padding:10px "
+            .label=${html`<a href="${youTubeUrl + x.id}">${x.snippet.channelTitle}</a>`}
           >
             <kor-image
+            
               src=${x.snippet.thumbnails.default.url}
               width="250px"
               height="100px"
               fit="cover"
             ></kor-image>
             <div class="cardBody">
-              <a href="${youTubeUrl + x.id}">${x.snippet.title}</a>
+              ${x.snippet.title}
               <div class="commentContainer">
                 ${x.statistics.commentCount > 0
                     ? html` <kor-badge
@@ -96,6 +75,6 @@ export class CardElement extends LitElement {
           </kor-card>`
         )}
       </div>
-    </div>`;
+    `;
     }
 }

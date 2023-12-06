@@ -14,6 +14,7 @@ export class SwitchElement extends LitElement {
       display: flex;
       justify-content: center;
       padding: 12px 62px;
+      z-index:99 ;
     }
   `;
 
