@@ -10,7 +10,7 @@ filed in that repo.
 
 ## Setup
 
-Install dependencies:
+Install dependencies: \*note also have typescript installed on your machine.
 
 ```bash
 npm i
