@@ -1,4 +1,6 @@
-# LitElement TypeScript starter
+# Lit Youtube
+
+![image description](./src//assets//snapshot.png)
 
 This project includes a sample component using LitElement with TypeScript.
 
