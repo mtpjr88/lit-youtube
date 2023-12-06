@@ -16,6 +16,9 @@ export class TabElement extends LitElement {
       padding: 12px 62px;
       z-index: 99;
     }
+    .container{
+      margin-bottom:16px ;
+    }
   `;
 
   isActive = (value: string) => {
@@ -23,7 +26,7 @@ export class TabElement extends LitElement {
   };
   override render() {
     return html`
-      <div>
+      <div class="container">
         <kor-text size="header-1">Filter:</kor-text>
         <kor-switch style="width: fit-content;">
           <kor-switch-item

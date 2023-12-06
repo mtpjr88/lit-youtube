@@ -1,9 +1,9 @@
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import { LitElement, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('error-element')
 export class ErrorElement extends LitElement {
-  @property({type: String})
+  @property({ type: String })
   error: string = '';
 
   static override styles = css`
@@ -31,10 +31,11 @@ export class ErrorElement extends LitElement {
     .fof {
       display: table-cell;
       vertical-align: middle;
+      color:white
     }
 
     .fof h1 {
-      font-size: 50px;
+      
       display: inline-block;
       padding-right: 12px;
       animation: type 0.5s alternate infinite;
@@ -56,8 +57,7 @@ export class ErrorElement extends LitElement {
         <div class="fof">
           <h1>${this.error}</h1>
           <h2>
-            There is a chance you hit the youtube api request limit, perhaps
-            trying a new api key and try again
+             (try a new api key and try again)
           </h2>
         </div>
       </div>

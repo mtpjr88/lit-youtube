@@ -31,6 +31,7 @@ export class MyElement extends LitElement {
       display: flex;
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
+      flex-wrap:wrap ;
     }
     .container {
       display: flex;
